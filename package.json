@@ -2,18 +2,52 @@
   "name": "chatbot",
   "version": "1.0.0",
   "description": "conversational agent (chatbot)",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./"
+    "flow": "flow",
+    "lint": "eslint ./src",
+    "test": "./node_modules/.bin/mocha --recursive --require @babel/register",
+    "test:watch": "mocha --watch",
+    "compile": "babel src/ -d dist/ --source-maps && cp ./src/eplTeamsProvider/epl_teams.json ./dist/eplTeamsProvider/epl_teams.json",
+    "watch": "npm run compile --watch",
+    "serve": "npm run watch && firebase serve --only functions",
+    "coverage": "nyc --reporter=html mocha --recursive --require @babel/register",
+    "start": "babel-node",
+    "predeploy": "npm run compile",
+    "deploy": "firebase deploy --only functions"
+  },
+  "engines": {
+    "node": "10"
   },
   "author": "Sadmi Lyes",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.5.5",
+    "babel-eslint": "^10.0.2",
+    "chai": "^4.2.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.3"
+    "eslint-plugin-react": "^7.14.3",
+    "flow-bin": "^0.104.0",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.5.5",
+    "axios": "^0.19.0",
+    "dialogflow": "^0.10.3",
+    "firebase-admin": "^8.3.0",
+    "firebase-functions": "^3.2.0",
+    "firebase-functions-test": "^0.1.6",
+    "sinon": "^7.4.1",
+    "uuid": "^3.3.2"
   }
 }
